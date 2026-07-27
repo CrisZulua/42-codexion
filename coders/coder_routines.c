@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 19:19:17 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:22:40 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:45:02 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void *coder_routine(void *arg)
 		print_log(sim, coder->id, "has taken a dongle");
 		// Compile
 		print_log(sim, coder->id, "is compiling");
+		update_burnout_time(coder);
 		sleep_thread(sim->compile_time_ms, coder);
 		if (!sim_is_running(sim))
 			break;
 		// Update state
 		coder->compilations++;
-		update_burnout_time(coder);
 		// Release dongles
 		realease_dongles(sim, coder->id);
 		// is finished?
