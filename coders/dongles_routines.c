@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/26 11:45:54 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/26 13:58:38 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 11:40:28 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,26 @@ void realease_dongles(t_sim *sim, int id)
 	pthread_mutex_unlock(&sim->lock);
 }
 
+static t_bool dongles_free(t_coder *coder)
+{
+	t_sim *sim;
+	t_bool left;
+	t_bool right;
+	int right_pos;
+	long long time;
+
+	right_pos = (coder->id + 1) % sim->nb_coders;
+	time = get_ms();
+	sim = coder->sim;
+	left = sim->dongles[coder->id].active;
+	if (time < sim->dongles[coder->id].available_at_ms)
+		return FALSE;
+	right = sim->dongles[right_pos].active;
+	if (time < sim->dongles[right_pos].available_at_ms)
+		return FALSE;
+	return (left && right);
+}
+
 void request_dongles(t_coder *coder)
 {
 	pthread_mutex_t *lock;
@@ -53,7 +73,7 @@ void request_dongles(t_coder *coder)
 	dongles_freed = &coder->sim->dongles_freed;
 	pthread_mutex_lock(lock);
 	get_in_queue(coder);
-	while (coder->sim->running && !(my_turn(coder) && dongles_free()))
+	while (coder->sim->running && !(my_turn(coder) && dongles_free(coder)))
 	{
 		get_timeout(&time, 5);
 		pthread_cond_timedwait(dongles_freed, lock, &time);

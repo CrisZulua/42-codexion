@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sim.c                                              :+:      :+:    :+:   */
+/*   sim_routines.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 17:04:31 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:42:04 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 11:09:20 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void cleanup_sim(t_sim *sim)
 	}
 	free(sim->coders);
 	free(sim->dongles);
+	free(sim->heap);
 }
 
 static void init_coders(t_sim *sim)
@@ -50,7 +51,7 @@ static void init_coders(t_sim *sim)
 		sim->coders[i].compilations = 0;
 		sim->coders[i].finished = FALSE;
 		sim->coders[i].to_bournout_ms = sim->start_ms + sim->burnout_time_ms;
-		sim->coders[i].waiting_start_at_ms = sim->start_ms;
+		sim->coders[i].waiting_start_ms = sim->start_ms;
 		sim->coders[i].sim = sim;
 		pthread_mutex_init(&sim->coders[i].burnout_mx, NULL);
 		pthread_mutex_init(&sim->coders[i].ended_mx, NULL);
@@ -71,8 +72,21 @@ static void init_dongles(t_sim *sim)
 	}
 }
 
+static void init_heap(t_sim *sim)
+{
+	int i;
+
+	i = 0;
+	while (i < sim->nb_coders)
+	{
+		sim->heap[i] = NULL;
+		i++;
+	}
+}
+
 int init_sim(t_sim *sim, char **argv)
 {
+	sim->heap_size = 0;
 	sim->nb_coders = atoi(argv[1]);
 	sim->burnout_time_ms = atoi(argv[2]);
 	sim->compile_time_ms = atoi(argv[3]);
@@ -85,10 +99,12 @@ int init_sim(t_sim *sim, char **argv)
 		sim->scheduler = T_EDF;
 	sim->coders = malloc(sizeof(t_coder) * (size_t)sim->nb_coders);
 	sim->dongles = malloc(sizeof(t_dongle) * (size_t)sim->nb_coders);
-	if (!sim->coders || !sim->dongles)
+	sim->heap = (t_coder **)malloc(sizeof(t_coder *) * sim->nb_coders);
+	if (!sim->coders || !sim->dongles || !sim->heap)
 	{
 		free(sim->coders);
 		free(sim->dongles);
+		free(sim->heap);
 		printf("Error: Could not initialize coders and dongles (malloc)\n");
 		return (0);
 	}
@@ -99,5 +115,6 @@ int init_sim(t_sim *sim, char **argv)
 	sim->start_ms = get_ms();
 	init_coders(sim);
 	init_dongles(sim);
+	init_heap(sim);
 	return (1);
 }

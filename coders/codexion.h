@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:04:46 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:41:35 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 11:40:46 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_coder
 	int id;
 	int compilations;
 	t_bool finished;
-	long long waiting_start_at_ms;
+	long long waiting_start_ms;
 	long long to_bournout_ms;
 	// Mutex
 	pthread_mutex_t burnout_mx;
@@ -57,17 +57,12 @@ typedef struct s_coder
 	struct s_sim *sim;
 } t_coder;
 
-typedef struct s_queue
-{
-	t_coder *coder;
-	struct s_queue *next;
-} t_queue;
-
 typedef struct s_sim
 {
 	// Simulation data
 	int nb_coders;
 	int compiles_required;
+	int heap_size;
 	long long burnout_time_ms;
 	long long compile_time_ms;
 	long long debug_time_ms;
@@ -78,7 +73,7 @@ typedef struct s_sim
 	// Objects data
 	t_coder *coders;
 	t_dongle *dongles;
-	t_queue *queue;
+	t_coder **heap;
 
 	// Mutex
 	pthread_mutex_t lock;
@@ -99,6 +94,13 @@ void get_timeout(struct timespec *ts, long long delay_ms);
 // Mutex routines
 t_bool is_burned_out(t_coder *coder);
 t_bool is_finished(t_coder *coder);
+
+// Heap routines
+t_coder *heap_peek(t_sim *sim);
+void heap_push(t_sim *sim, t_coder *coder);
+t_coder *heap_pop(t_sim *sim);
+void get_in_queue(t_coder *coder);
+t_bool my_turn(t_coder *coder);
 
 // Dongles routine
 void realease_dongles(t_sim *sim, int id);
