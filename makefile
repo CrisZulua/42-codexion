@@ -1,7 +1,7 @@
 NAME = codexion
 
 CC = cc
-FLAGS = -Wall -Werror -Wextra -Icoders -MMD -MP
+FLAGS = -Wall -Werror -Wextra -g -Icoders -MMD -MP
 
 SRC_DIR = coders
 OBJ_DIR = objects

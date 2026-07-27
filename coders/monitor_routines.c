@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 18:43:30 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 12:57:52 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 17:32:10 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void *monitor_routine(void *arg)
 			if (is_burned_out(&sim->coders[i]))
 			{
 				pthread_mutex_unlock(&sim->lock);
-				print_log(sim, i + 1, "burned out");
+				print_log(sim, i, "burned out");
 				stop_sim(sim);
 				return (NULL);
 			}

@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 19:19:17 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 13:13:08 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 17:42:44 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void *coder_routine(void *arg)
 			finish_coder(coder);
 			break;
 		}
+		if (!sim_is_running(sim))
+			break;
 		// Debug
 		print_log(sim, coder->id, "is debugging");
 		sleep_thread(sim->debug_time_ms, coder);
