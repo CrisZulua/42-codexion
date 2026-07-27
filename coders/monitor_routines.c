@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 18:43:30 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 18:32:40 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:54:25 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	*monitor_routine(void *arg)
 		pthread_mutex_lock(&sim->lock);
 		if (any_burned_out(sim))
 		{
-			stop_sim(sim);
 			pthread_mutex_unlock(&sim->lock);
+			stop_sim(sim);
 			return (NULL);
 		}
 		if (coders_finished(sim))
 		{
-			stop_sim(sim);
 			pthread_mutex_unlock(&sim->lock);
+			stop_sim(sim);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&sim->lock);

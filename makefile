@@ -6,9 +6,9 @@ FLAGS = -Wall -Werror -Wextra -g -Icoders -MMD -MP
 SRC_DIR = coders
 OBJ_DIR = objects
 
-SRC = parse_args.c utilities_a.c sim_routines.c monitor_routines.c \
-heap_routines.c heap_routines_b.c dongles_routines.c coder_routines.c \
-codexion.c 
+SRC = parse_args.c utilities_a.c sim_routines.c sim_routines_b.c\
+monitor_routines.c heap_routines.c heap_routines_b.c dongles_routines.c  \
+coder_routines.c codexion.c 
 
 SRCS = $(SRC:%.c=$(SRC_DIR)/%.c)
 OBJ = $(SRCS:%.c=$(OBJ_DIR)/%.o)
