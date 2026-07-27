@@ -6,15 +6,15 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:18:13 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 13:20:49 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:08:16 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-void print_log(t_sim *sim, int id, const char *msg)
+void	print_log(t_sim *sim, int id, const char *msg)
 {
-	long long ts;
+	long long	ts;
 
 	ts = get_ms() - sim->start_ms;
 	pthread_mutex_lock(&sim->print_lock);
@@ -22,10 +22,10 @@ void print_log(t_sim *sim, int id, const char *msg)
 	pthread_mutex_unlock(&sim->print_lock);
 }
 
-void sleep_thread(long long ms, t_coder *coder)
+void	sleep_thread(long long ms, t_coder *coder)
 {
-	long long slept;
-	long long step;
+	long long	slept;
+	long long	step;
 
 	slept = 0;
 	while (slept < ms && sim_is_running(coder->sim))
@@ -38,21 +38,21 @@ void sleep_thread(long long ms, t_coder *coder)
 	}
 }
 
-long long get_ms()
+long long	get_ms(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((long long)tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void get_timeout(struct timespec *ts, long long delay_ms)
+void	get_timeout(struct timespec *ts, long long delay_ms)
 {
-	struct timeval now;
-	long long total_usec;
+	struct timeval	now;
+	long long		total_us;
 
 	gettimeofday(&now, NULL);
-	total_usec = (long long)now.tv_sec * 1000000 + now.tv_usec + delay_ms * 1000;
-	ts->tv_sec = total_usec / 1000000;
-	ts->tv_nsec = (total_usec % 1000000) * 1000;
+	total_us = (long long)now.tv_sec * 1000000 + now.tv_usec + delay_ms * 1000;
+	ts->tv_sec = total_us / 1000000;
+	ts->tv_nsec = (total_us % 1000000) * 1000;
 }

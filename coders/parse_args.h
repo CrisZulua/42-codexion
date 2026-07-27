@@ -6,19 +6,16 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 14:59:16 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/24 15:51:09 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:13:10 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSE_ARGS_H
-#define PARSE_ARGS_H
+# define PARSE_ARGS_H
 
-#define NOT_ENOUGH_ARGS "usage: codexion n_coders time_to_burnout "      \
-						"time_to_compile time_to_debug time_to_refactor" \
-						" n_compiles_required dongle_cooldown "          \
-						"scheduler(fifo|edf)"
-#define BAD_NUMBER_VALUE "Argument type has to be a positive integer"
-#define UNKNOWN_SCHEDULER "Scheduler: <fifo | edf>"
+# define NOT_ENOUGH_ARGS "[ERROR] 9 arguments required: "
+# define BAD_NUMBER_VALUE "Argument type has to be a positive integer"
+# define UNKNOWN_SCHEDULER "Scheduler: <fifo | edf>"
 
 /*
 	DESCRIPTION
@@ -29,7 +26,7 @@
 	1 if falls into the category described.
 	0 otherwise.
 */
-int is_positive(char *number);
+int	is_positive(char *number);
 
 /*
 	DESCRIPTION
@@ -48,6 +45,6 @@ int is_positive(char *number);
 	1 if everything is ok with the arguments
 	0 if there is an error on any argument
 */
-int parse_args(int argc, char **argv);
+int	parse_args(int argc, char **argv);
 
 #endif

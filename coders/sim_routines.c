@@ -6,43 +6,15 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 17:04:31 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 11:09:20 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:27:47 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-t_bool sim_is_running(t_sim *sim)
+static void	init_coders(t_sim *sim)
 {
-	t_bool status;
-	pthread_mutex_lock(&sim->lock);
-	status = sim->running;
-	pthread_mutex_unlock(&sim->lock);
-	return status;
-}
-
-void cleanup_sim(t_sim *sim)
-{
-	int i;
-
-	pthread_mutex_destroy(&sim->lock);
-	pthread_mutex_destroy(&sim->print_lock);
-	pthread_cond_destroy(&sim->dongles_freed);
-	i = 0;
-	while (i < sim->nb_coders)
-	{
-		pthread_mutex_destroy(&sim->coders[i].burnout_mx);
-		pthread_mutex_destroy(&sim->coders[i].ended_mx);
-		i++;
-	}
-	free(sim->coders);
-	free(sim->dongles);
-	free(sim->heap);
-}
-
-static void init_coders(t_sim *sim)
-{
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < sim->nb_coders)
@@ -59,9 +31,9 @@ static void init_coders(t_sim *sim)
 	}
 }
 
-static void init_dongles(t_sim *sim)
+static void	init_dongles(t_sim *sim)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < sim->nb_coders)
@@ -72,9 +44,9 @@ static void init_dongles(t_sim *sim)
 	}
 }
 
-static void init_heap(t_sim *sim)
+static void	init_heap(t_sim *sim)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < sim->nb_coders)
@@ -84,7 +56,7 @@ static void init_heap(t_sim *sim)
 	}
 }
 
-int init_sim(t_sim *sim, char **argv)
+static void	init_values(t_sim *sim, char **argv)
 {
 	sim->heap_size = 0;
 	sim->nb_coders = atoi(argv[1]);
@@ -97,6 +69,11 @@ int init_sim(t_sim *sim, char **argv)
 	sim->scheduler = T_FIFO;
 	if (!strcmp(argv[8], "edf"))
 		sim->scheduler = T_EDF;
+}
+
+int	init_sim(t_sim *sim, char **argv)
+{
+	init_values(sim, argv);
 	sim->coders = malloc(sizeof(t_coder) * (size_t)sim->nb_coders);
 	sim->dongles = malloc(sizeof(t_dongle) * (size_t)sim->nb_coders);
 	sim->heap = (t_coder **)malloc(sizeof(t_coder *) * sim->nb_coders);
