@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 14:53:09 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:40:16 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:34:54 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int parse_args(int argc, char **argv)
 {
 	int i;
 
-	if (argc != 9)
+	if (argc != 10)
 		return (printf("%s\n", NOT_ENOUGH_ARGS), 0);
 	i = 1;
-	while (i < 8)
+	while (i < 9)
 	{
 		if (!is_positive(argv[i]))
 			return (printf("%s\n", BAD_NUMBER_VALUE), 0);

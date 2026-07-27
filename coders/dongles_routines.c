@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/26 11:45:54 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 11:53:32 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:24:30 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ static t_bool dongles_free(t_coder *coder)
 	int right_pos;
 	long long time;
 
-	right_pos = (coder->id + 1) % sim->nb_coders;
-	time = get_ms();
 	sim = coder->sim;
+	time = get_ms();
+	right_pos = (coder->id + 1) % sim->nb_coders;
 	left = sim->dongles[coder->id].active;
 	if (time < sim->dongles[coder->id].available_at_ms)
 		return FALSE;

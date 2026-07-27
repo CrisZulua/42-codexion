@@ -6,11 +6,33 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:46:28 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:32:48 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:25:48 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
+
+int create_coders_threads(t_sim *sim)
+{
+	int i;
+	int created;
+
+	created = 0;
+	i = 0;
+	while (i < sim->nb_coders)
+	{
+		if (pthread_create(&sim->coders[i].thread, NULL,
+						   coder_routine, &sim->coders[i]) != 0)
+		{
+			printf("ERROR: Could not create thread for coder %d\n", i + 1);
+			stop_sim(sim);
+			break;
+		}
+		created++;
+		i++;
+	}
+	return created;
+}
 
 int main(int argc, char **argv)
 {
@@ -28,20 +50,7 @@ int main(int argc, char **argv)
 		cleanup_sim(&sim);
 		return (1);
 	}
-	created = 0;
-	i = 0;
-	while (i < sim.nb_coders)
-	{
-		if (pthread_create(&sim.coders[i].thread, NULL,
-						   coder_routine, &sim.coders[i]) != 0)
-		{
-			printf("ERROR: Could not create thread for coder %d\n", i + 1);
-			stop_sim(&sim);
-			break;
-		}
-		created++;
-		i++;
-	}
+	created = create_coders_threads(&sim);
 	pthread_join(sim.monitor, NULL);
 	i = 0;
 	while (i < created)
@@ -49,10 +58,6 @@ int main(int argc, char **argv)
 		pthread_join(sim.coders[i].thread, NULL);
 		i++;
 	}
-	if (coders_finished(&sim))
-		printf("\nTodos los coders llegaron a %d compilaciones. "
-			   "Fin de la simulacion.\n",
-			   sim.compiles_required);
 	cleanup_sim(&sim);
 	return (0);
 }
