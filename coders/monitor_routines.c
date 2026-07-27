@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 18:43:30 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 10:20:49 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 12:57:52 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,12 @@ void *monitor_routine(void *arg)
 	while (sim_is_running(sim))
 	{
 		i = 0;
+		pthread_mutex_lock(&sim->lock);
 		while (i < sim->nb_coders)
 		{
 			if (is_burned_out(&sim->coders[i]))
 			{
+				pthread_mutex_unlock(&sim->lock);
 				print_log(sim, i + 1, "burned out");
 				stop_sim(sim);
 				return (NULL);
@@ -64,9 +66,11 @@ void *monitor_routine(void *arg)
 		}
 		if (coders_finished(sim))
 		{
+			pthread_mutex_unlock(&sim->lock);
 			stop_sim(sim);
 			return (NULL);
 		}
+		pthread_mutex_unlock(&sim->lock);
 		usleep(1000);
 	}
 	return (NULL);
