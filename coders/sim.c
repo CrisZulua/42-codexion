@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 17:04:31 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/26 13:59:43 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:42:04 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ t_bool sim_is_running(t_sim *sim)
 
 void cleanup_sim(t_sim *sim)
 {
+	int i;
+
+	pthread_mutex_destroy(&sim->lock);
+	pthread_mutex_destroy(&sim->print_lock);
+	pthread_cond_destroy(&sim->dongles_freed);
+	i = 0;
+	while (i < sim->nb_coders)
+	{
+		pthread_mutex_destroy(&sim->coders[i].burnout_mx);
+		pthread_mutex_destroy(&sim->coders[i].ended_mx);
+		i++;
+	}
 	free(sim->coders);
 	free(sim->dongles);
 }
@@ -38,6 +50,7 @@ static void init_coders(t_sim *sim)
 		sim->coders[i].compilations = 0;
 		sim->coders[i].finished = FALSE;
 		sim->coders[i].to_bournout_ms = sim->start_ms + sim->burnout_time_ms;
+		sim->coders[i].waiting_start_at_ms = sim->start_ms;
 		sim->coders[i].sim = sim;
 		pthread_mutex_init(&sim->coders[i].burnout_mx, NULL);
 		pthread_mutex_init(&sim->coders[i].ended_mx, NULL);

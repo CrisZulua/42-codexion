@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 18:43:30 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/25 13:04:10 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:20:49 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_bool is_burned_out(t_coder *coder)
 
 	pthread_mutex_lock(&coder->burnout_mx);
 	state = get_ms() >= coder->to_bournout_ms;
-	pthread_mutex_lock(&coder->burnout_mx);
+	pthread_mutex_unlock(&coder->burnout_mx);
 	return state;
 }
 
@@ -26,7 +26,7 @@ void stop_sim(t_sim *sim)
 {
 	pthread_mutex_lock(&sim->lock);
 	sim->running = FALSE;
-	pthread_mutex_lock(&sim->lock);
+	pthread_mutex_unlock(&sim->lock);
 }
 
 t_bool coders_finished(t_sim *sim)

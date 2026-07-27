@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 19:19:17 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/26 12:59:53 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:22:40 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void *coder_routine(void *arg)
 
 	coder = (t_coder *)arg;
 	sim = coder->sim;
-	while (coder->compilations < sim->compiles_required && !is_burned(coder))
+	while (coder->compilations < sim->compiles_required && !is_burned_out(coder))
 	{
 		// Request dongles
 		request_dongles(coder);

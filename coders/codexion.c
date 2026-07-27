@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:46:28 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/25 12:37:22 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:32:48 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
 		return (1);
 	if (pthread_create(&sim.monitor, NULL, monitor_routine, &sim) != 0)
 	{
-		print("ERROR: Could not create monitor thread\n");
+		printf("ERROR: Could not create monitor thread\n");
 		cleanup_sim(&sim);
 		return (1);
 	}
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 						   coder_routine, &sim.coders[i]) != 0)
 		{
 			printf("ERROR: Could not create thread for coder %d\n", i + 1);
-			stop_simulation(&sim);
+			stop_sim(&sim);
 			break;
 		}
 		created++;
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 		pthread_join(sim.coders[i].thread, NULL);
 		i++;
 	}
-	if (all_coders_done(&sim))
+	if (coders_finished(&sim))
 		printf("\nTodos los coders llegaron a %d compilaciones. "
 			   "Fin de la simulacion.\n",
 			   sim.compiles_required);

@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:04:46 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/26 13:16:02 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 10:41:35 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef enum e_scheduler
 {
@@ -45,6 +47,7 @@ typedef struct s_coder
 	int id;
 	int compilations;
 	t_bool finished;
+	long long waiting_start_at_ms;
 	long long to_bournout_ms;
 	// Mutex
 	pthread_mutex_t burnout_mx;
@@ -99,6 +102,7 @@ t_bool is_finished(t_coder *coder);
 
 // Dongles routine
 void realease_dongles(t_sim *sim, int id);
+void request_dongles(t_coder *coder);
 
 // Thread routines
 void *monitor_routine(void *arg);
@@ -111,5 +115,6 @@ void cleanup_sim(t_sim *sim);
 t_bool sim_is_running(t_sim *sim);
 void print_log(t_sim *sim, int id, const char *msg);
 void stop_sim(t_sim *sim);
+t_bool coders_finished(t_sim *sim);
 
 #endif
