@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/26 11:45:54 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 12:24:30 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 13:13:23 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static t_bool dongles_free(t_coder *coder)
 	right = sim->dongles[right_pos].active;
 	if (time < sim->dongles[right_pos].available_at_ms)
 		return FALSE;
-	return (left && right);
+	return (!left && !right);
 }
 
 void request_dongles(t_coder *coder)
@@ -69,6 +69,7 @@ void request_dongles(t_coder *coder)
 	pthread_cond_t *dongles_freed;
 	struct timespec time;
 
+	// printf("[DEBUG]: Entra en request_dongles id:%i\n", coder->id);
 	lock = &coder->sim->lock;
 	dongles_freed = &coder->sim->dongles_freed;
 	pthread_mutex_lock(lock);

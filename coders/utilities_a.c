@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:18:13 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/26 12:47:54 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 13:20:49 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void print_log(t_sim *sim, int id, const char *msg)
 
 	ts = get_ms() - sim->start_ms;
 	pthread_mutex_lock(&sim->print_lock);
-	printf("%lld %d  %s\n", ts, id, msg);
+	printf("%lld %d  %s\n", ts, id + 1, msg);
 	pthread_mutex_unlock(&sim->print_lock);
 }
 
