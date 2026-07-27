@@ -6,7 +6,7 @@
 /*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/26 11:45:54 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 11:40:28 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/07/27 11:53:32 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void request_dongles(t_coder *coder)
 		pthread_cond_timedwait(dongles_freed, lock, &time);
 	}
 	if (coder->sim->running)
+	{
+		heap_pop(coder->sim);
 		take_dongles(coder->sim, coder->id);
+	}
 	pthread_mutex_unlock(&coder->sim->lock);
 }
