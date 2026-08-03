@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: czuluaga <czuluaga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 14:53:09 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 18:14:42 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/08/03 13:05:09 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	parse_args(int argc, char **argv)
 	while (i < 8)
 	{
 		if (!is_positive(argv[i]))
-			return (printf("%s\n", BAD_NUMBER_VALUE), 0);
+			return (printf("Argument %i: %s\n", i, BAD_NUMBER_VALUE), 0);
 		i++;
 	}
 	if (strcmp(argv[i], "fifo") != 0 && strcmp(argv[i], "edf") != 0)
