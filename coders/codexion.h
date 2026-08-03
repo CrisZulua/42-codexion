@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: czuluaga <czuluaga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:04:46 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 18:41:12 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/08/03 12:10:23 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void		request_dongles(t_coder *coder);
 void		*monitor_routine(void *arg);
 void		*coder_routine(void *arg);
 void		sleep_thread(long long ms, t_coder *coder);
+void		compile(t_sim *sim, t_coder *coder);
+void		update_burnout_time(t_coder *coder);
 
 // Sim functions
 int			init_sim(t_sim *sim, char **argv);

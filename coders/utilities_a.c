@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utilities_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czuluaga <czuluaga@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: czuluaga <czuluaga@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 12:18:13 by czuluaga          #+#    #+#             */
-/*   Updated: 2026/07/27 18:08:16 by czuluaga         ###   ########.fr       */
+/*   Updated: 2026/08/03 12:06:53 by czuluaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ void	get_timeout(struct timespec *ts, long long delay_ms)
 	total_us = (long long)now.tv_sec * 1000000 + now.tv_usec + delay_ms * 1000;
 	ts->tv_sec = total_us / 1000000;
 	ts->tv_nsec = (total_us % 1000000) * 1000;
+}
+
+void	compile(t_sim *sim, t_coder *coder)
+{
+	print_log(sim, coder->id, "has taken a dongle");
+	print_log(sim, coder->id, "has taken a dongle");
+	print_log(sim, coder->id, "is compiling");
+	update_burnout_time(coder);
+	sleep_thread(sim->compile_time_ms, coder);
 }
